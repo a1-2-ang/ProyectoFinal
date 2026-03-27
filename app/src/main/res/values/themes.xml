@@ -1,0 +1,23 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.AuspectusPantallas" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.AuspectusPantallas" parent="Base.Theme.AuspectusPantallas" />
+
+    <style name="MiEstiloAlerta1" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="android:background">#18C340</item>
+        <item name="colorAccent">#FF00DD</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MiEstiloAlerta2" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="android:background">#C31818</item>
+        <item name="colorAccent">#0026FF</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>
