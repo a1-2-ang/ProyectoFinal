@@ -12,9 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AuspectusPantallas">
         <activity
+            android:name=".Acentos2"
+            android:exported="false" />
+        <activity
+            android:name=".Niveles2"
+            android:exported="false"
+            android:noHistory="true" />
+        <activity
             android:name=".Acentos1"
             android:exported="false"
-            android:noHistory="true"/>
+            android:noHistory="true" />
         <activity
             android:name=".Niveles"
             android:exported="false" />

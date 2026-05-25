@@ -17,8 +17,8 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-public class Acentos1 extends AppCompatActivity {
-    private MediaPlayer Mp1, Mp2, Mp3;
+public class Acentos2 extends AppCompatActivity {
+    private MediaPlayer Mp1, Mp2;
     private ProgressBar BarraP1;
     private Handler Handler1 = new Handler();
     private Runnable runnable1 = new Runnable() {
@@ -37,10 +37,10 @@ public class Acentos1 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_acentos1);
-        Mp1 = MediaPlayer.create(this, R.raw.acento_argentino);
+        setContentView(R.layout.activity_acentos2);
+        Mp1 = MediaPlayer.create(this, R.raw.chileno);
         Mp2 = MediaPlayer.create(this, R.raw.correct);
-        Mp3 = MediaPlayer.create(this, R.raw.incorrect);
+//        Mp3 = MediaPlayer.create(this, R.raw.incorrect);
         btnVerificar = findViewById(R.id.btnVerf);
         EtAcento = findViewById(R.id.ETAcento);
         BarraP1 = (ProgressBar) findViewById(R.id.progressBar1);
@@ -68,8 +68,8 @@ public class Acentos1 extends AppCompatActivity {
                     Mp1.pause();
                     Handler1.removeCallbacks(runnable1);
                 } else {
-                Mp1.start();
-                Handler1.post(runnable1);
+                    Mp1.start();
+                    Handler1.post(runnable1);
                 }
             }
         });
@@ -80,18 +80,18 @@ public class Acentos1 extends AppCompatActivity {
 //                Mp2.start();
                 Mp1.stop();
                 Mp1.reset();
-                Mp1 = MediaPlayer.create(Acentos1.this, R.raw.acento_argentino);
+                Mp1 = MediaPlayer.create(Acentos2.this, R.raw.acento_argentino);
 
                 String EAcento = EtAcento.getText().toString().trim();
                 if (EAcento.isEmpty()){
-                    Toast.makeText(Acentos1.this, "Coloca el acento", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Acentos2.this, "Coloca el acento", Toast.LENGTH_SHORT).show();
                     EtAcento.requestFocus();
-                } else if (!EAcento.equals("ARGENTINO")){
-                    Toast.makeText(Acentos1.this, "Es Incorrecto", Toast.LENGTH_SHORT).show();
+                } else if (!EAcento.equals("CHILENO")){
+                    Toast.makeText(Acentos2.this, "Es Incorrecto", Toast.LENGTH_SHORT).show();
                     EtAcento.requestFocus();
-                } else if (EAcento.equals("ARGENTINO")) {
+                } else if (EAcento.equals("CHILENO")) {
                     Mp2.start();
-                    MiAlerta1.mostrarAlerta1(Acentos1.this, R.style.MiEstiloAlerta1,"Correcto", "Has acertado.", Acentos2.class);
+                    MiAlerta1.mostrarAlerta1(Acentos2.this, R.style.MiEstiloAlerta1,"Correcto", "Has acertado.", MainActivity.class);
                 }
             }
         });

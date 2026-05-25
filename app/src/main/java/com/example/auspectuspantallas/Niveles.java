@@ -25,6 +25,13 @@ public class Niveles extends AppCompatActivity {
         btn4 = findViewById(R.id.btnN4);
         btn5 = findViewById(R.id.btnN5);
 
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Niveles.this, Niveles2.class);
+                startActivity(intent);
+            }
+        });
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
