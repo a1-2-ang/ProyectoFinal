@@ -1,23 +1,18 @@
 package com.example.auspectuspantallas;
 
 import android.os.Bundle;
-import android.text.InputFilter;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
-public class Niveles2 extends AppCompatActivity {
+public class N1_A1 extends AppCompatActivity {
     private MediaPlayer Mp1, Mp2, Mp3;
     private Handler Handler1 = new Handler();
     private Runnable runnable1 = new Runnable() {
@@ -34,7 +29,7 @@ public class Niveles2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_niveles2);
+        setContentView(R.layout.activity_n1_a1);
         Mp1 = MediaPlayer.create(this, R.raw.miau);
         Mp2 = MediaPlayer.create(this, R.raw.correct);
         Mp3 = MediaPlayer.create(this, R.raw.incorrect);
@@ -56,7 +51,7 @@ public class Niveles2 extends AppCompatActivity {
         btnCont.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Niveles2.this, MainActivity.class);
+                Intent intent = new Intent(N1_A1.this, MainActivity.class);
                 startActivity(intent);
             }
         });

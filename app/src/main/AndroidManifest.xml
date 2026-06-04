@@ -12,10 +12,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AuspectusPantallas">
         <activity
+            android:name=".InicioSesion"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".Acentos2"
             android:exported="false" />
         <activity
-            android:name=".Niveles2"
+            android:name=".N1_A1"
             android:exported="false"
             android:noHistory="true" />
         <activity
@@ -35,23 +44,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Animal5"
+            android:name=".N2_A5"
             android:exported="false"
             android:noHistory="true" />
         <activity
-            android:name=".Animal4"
+            android:name=".N2_A4"
             android:exported="false"
             android:noHistory="true" />
         <activity
-            android:name=".Animal3"
+            android:name=".N2_A3"
             android:exported="false"
             android:noHistory="true" />
         <activity
-            android:name=".SegundoAnimalActivity2"
+            android:name=".N2_A2"
             android:exported="false"
             android:noHistory="true" />
         <activity
-            android:name=".Animal1"
+            android:name=".N2_A1"
             android:exported="false"
             android:noHistory="true" />
     </application>

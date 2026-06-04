@@ -2,8 +2,6 @@ package com.example.auspectuspantallas;
 
 import android.os.Bundle;
 
-import android.content.Intent;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.MediaPlayer;
@@ -13,7 +11,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
-public class Animal1 extends AppCompatActivity {
+public class N2_A1 extends AppCompatActivity {
     private MediaPlayer Mp1, Mp2, Mp3;
     private ProgressBar BarraP1;
     private Handler Handler1 = new Handler();
@@ -32,7 +30,7 @@ public class Animal1 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_animal1);
+        setContentView(R.layout.activity_n2_a1);
 
         Mp1 = MediaPlayer.create(this, R.raw.miau);
         Mp2 = MediaPlayer.create(this, R.raw.correct);
@@ -78,9 +76,9 @@ public class Animal1 extends AppCompatActivity {
                 Mp2.start();
                 Mp1.stop();
                 Mp1.reset();
-                Mp1 = MediaPlayer.create(Animal1.this, R.raw.miau);
+                Mp1 = MediaPlayer.create(N2_A1.this, R.raw.miau);
                 DatosGlobales.contador+=1;
-                MiAlerta1.mostrarAlerta1(Animal1.this, R.style.MiEstiloAlerta1,"Correcto", "Has acertado.", SegundoAnimalActivity2.class);
+                MiAlerta1.mostrarAlerta1(N2_A1.this, R.style.MiEstiloAlerta1,"Correcto", "Has acertado.", N2_A2.class);
             }
         });
         R2.setOnClickListener(new View.OnClickListener() {
@@ -89,8 +87,8 @@ public class Animal1 extends AppCompatActivity {
                 Mp3.start();
                 Mp1.stop();
                 Mp1.reset();
-                Mp1 = MediaPlayer.create(Animal1.this, R.raw.miau);
-                MiAlerta2.mostrarAlerta(Animal1.this, R.style.MiEstiloAlerta2, "Incorrecto", "Has fallado.", SegundoAnimalActivity2.class);
+                Mp1 = MediaPlayer.create(N2_A1.this, R.raw.miau);
+                MiAlerta2.mostrarAlerta(N2_A1.this, R.style.MiEstiloAlerta2, "Incorrecto", "Has fallado.", N2_A2.class);
             }
         });
         R3.setOnClickListener(new View.OnClickListener() {
@@ -99,8 +97,8 @@ public class Animal1 extends AppCompatActivity {
                 Mp3.start();
                 Mp1.stop();
                 Mp1.reset();
-                Mp1 = MediaPlayer.create(Animal1.this, R.raw.miau);
-                MiAlerta2.mostrarAlerta(Animal1.this, R.style.MiEstiloAlerta2,"Incorrecto", "Has fallado.", SegundoAnimalActivity2.class);
+                Mp1 = MediaPlayer.create(N2_A1.this, R.raw.miau);
+                MiAlerta2.mostrarAlerta(N2_A1.this, R.style.MiEstiloAlerta2,"Incorrecto", "Has fallado.", N2_A2.class);
             }
         });
         R4.setOnClickListener(new View.OnClickListener() {
@@ -109,8 +107,8 @@ public class Animal1 extends AppCompatActivity {
                 Mp3.start();
                 Mp1.stop();
                 Mp1.reset();
-                Mp1 = MediaPlayer.create(Animal1.this, R.raw.miau);
-                MiAlerta2.mostrarAlerta(Animal1.this, R.style.MiEstiloAlerta2,"Incorrecto", "Has fallado.", SegundoAnimalActivity2.class);
+                Mp1 = MediaPlayer.create(N2_A1.this, R.raw.miau);
+                MiAlerta2.mostrarAlerta(N2_A1.this, R.style.MiEstiloAlerta2,"Incorrecto", "Has fallado.", N2_A2.class);
             }
         });
     }

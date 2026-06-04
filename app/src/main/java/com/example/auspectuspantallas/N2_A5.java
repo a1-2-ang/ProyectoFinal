@@ -5,22 +5,17 @@ import android.content.Intent;
 
 import androidx.appcompat.app.AlertDialog;
 import android.content.DialogInterface;
-import androidx.activity.EdgeToEdge;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
 import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-public class Animal5 extends AppCompatActivity {
+public class N2_A5 extends AppCompatActivity {
     private MediaPlayer Mp1, Mp2, Mp3;
     private ProgressBar BarraP1;
     private Handler Handler1 = new Handler();
@@ -39,7 +34,7 @@ public class Animal5 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_animal5);
+        setContentView(R.layout.activity_n2_a5);
 
         Mp1 = MediaPlayer.create(this, R.raw.caballo);
         Mp2 = MediaPlayer.create(this, R.raw.correct);
@@ -85,16 +80,16 @@ public class Animal5 extends AppCompatActivity {
                 Mp3.start();
                 Mp1.stop();
                 Mp1.reset();
-                Mp1 = MediaPlayer.create(Animal5.this, R.raw.caballo);
+                Mp1 = MediaPlayer.create(N2_A5.this, R.raw.caballo);
                 String mensajeFinal = "Felicidades, llegaste al final.\nTu resultado es: " + DatosGlobales.contador;
-                AlertDialog.Builder builder = new AlertDialog.Builder(Animal5.this, R.style.MiEstiloAlerta2);
+                AlertDialog.Builder builder = new AlertDialog.Builder(N2_A5.this, R.style.MiEstiloAlerta2);
                 builder.setTitle("Resultado Final");
                 builder.setMessage(mensajeFinal);
                 builder.setCancelable(false);
                 builder.setPositiveButton("Finalizar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Animal5.this, MainActivity.class);
+                        Intent intent = new Intent(N2_A5.this, MainActivity.class);
                         startActivity(intent);
                     }
                 });
@@ -107,16 +102,16 @@ public class Animal5 extends AppCompatActivity {
                 Mp3.start();
                 Mp1.stop();
                 Mp1.reset();
-                Mp1 = MediaPlayer.create(Animal5.this, R.raw.caballo);
+                Mp1 = MediaPlayer.create(N2_A5.this, R.raw.caballo);
                 String mensajeFinal = "Felicidades, llegaste al final.\nTu resultado es: " + DatosGlobales.contador;
-                AlertDialog.Builder builder = new AlertDialog.Builder(Animal5.this, R.style.MiEstiloAlerta2);
+                AlertDialog.Builder builder = new AlertDialog.Builder(N2_A5.this, R.style.MiEstiloAlerta2);
                 builder.setTitle("Resultado Final");
                 builder.setMessage(mensajeFinal);
                 builder.setCancelable(false);
                 builder.setPositiveButton("Finalizar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Animal5.this, MainActivity.class);
+                        Intent intent = new Intent(N2_A5.this, MainActivity.class);
                         startActivity(intent);
                     }
                 });
@@ -129,17 +124,17 @@ public class Animal5 extends AppCompatActivity {
                 Mp3.start();
                 Mp1.stop();
                 Mp1.reset();
-                Mp1 = MediaPlayer.create(Animal5.this, R.raw.caballo);
+                Mp1 = MediaPlayer.create(N2_A5.this, R.raw.caballo);
 //                MiAlerta2.mostrarAlerta(Animal5.this, "Incorrecto", "Has fallado.", Animal5.class);
                 String mensajeFinal = "Felicidades, llegaste al final.\nTu resultado es: " + DatosGlobales.contador;
-                AlertDialog.Builder builder = new AlertDialog.Builder(Animal5.this, R.style.MiEstiloAlerta2);
+                AlertDialog.Builder builder = new AlertDialog.Builder(N2_A5.this, R.style.MiEstiloAlerta2);
                 builder.setTitle("Resultado Final");
                 builder.setMessage(mensajeFinal);
                 builder.setCancelable(false);
                 builder.setPositiveButton("Finalizar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Animal5.this, MainActivity.class);
+                        Intent intent = new Intent(N2_A5.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -153,17 +148,17 @@ public class Animal5 extends AppCompatActivity {
                 Mp2.start();
                 Mp1.stop();
                 Mp1.reset();
-                Mp1 = MediaPlayer.create(Animal5.this, R.raw.caballo);
+                Mp1 = MediaPlayer.create(N2_A5.this, R.raw.caballo);
                 DatosGlobales.contador+=1;
                 String mensajeFinal = "Felicidades, llegaste al final.\nTu resultado es: " + DatosGlobales.contador;
-                AlertDialog.Builder builder = new AlertDialog.Builder(Animal5.this, R.style.MiEstiloAlerta1);
+                AlertDialog.Builder builder = new AlertDialog.Builder(N2_A5.this, R.style.MiEstiloAlerta1);
                 builder.setTitle("Resultado Final");
                 builder.setMessage(mensajeFinal);
                 builder.setCancelable(false);
                 builder.setPositiveButton("Finalizar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Animal5.this, MainActivity.class);
+                        Intent intent = new Intent(N2_A5.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     }
