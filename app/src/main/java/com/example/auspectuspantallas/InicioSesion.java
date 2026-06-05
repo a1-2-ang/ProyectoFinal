@@ -104,12 +104,18 @@ public class InicioSesion extends AppCompatActivity {
                 if (valido) {
                     Toast.makeText(this, "Bienvenido " + usuario, Toast.LENGTH_SHORT).show();
 
+
+
                     // Guardar sesión y usuario en SharedPreferences
                     SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putBoolean("sesion_iniciada", true);
-                    editor.putString("usuario", usuario);
-                    editor.apply();
+                    if (editor != null){
+                        editor.putBoolean("sesion_iniciada", true);
+                        editor.putString("usuario", usuario);
+                        editor.apply();
+                    } else {
+                        editor.clear();
+                    }
 
                     // Ir a MainActivity
                     Intent intent = new Intent(InicioSesion.this, MainActivity.class);

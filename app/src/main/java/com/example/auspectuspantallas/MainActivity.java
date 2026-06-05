@@ -149,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
 //        btn4.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, OtraActivity2.class)));
     }
 
-    // Método para corregir orientación de imágenes
     private Bitmap corregirOrientacion(Uri uri) throws IOException {
         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
 

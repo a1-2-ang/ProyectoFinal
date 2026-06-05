@@ -7,6 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".InicioSesion">
 
+    <TextView
+        android:id="@+id/TvId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Id:"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:id="@+id/layoutLogin"
         android:layout_width="match_parent"
