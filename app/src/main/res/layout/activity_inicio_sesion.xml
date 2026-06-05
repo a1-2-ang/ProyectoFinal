@@ -8,6 +8,7 @@
     tools:context=".InicioSesion">
 
     <LinearLayout
+        android:id="@+id/layoutLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -31,7 +32,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="31dp"
             android:layout_marginTop="88dp"
-            android:layout_marginEnd="267dp"
             android:text="Usuario:"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -91,6 +91,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layoutRegistro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -112,13 +113,16 @@
 
         <ImageButton
             android:id="@+id/img1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="220dp"
+            android:layout_height="230dp"
             android:layout_marginStart="33dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="33dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
             android:layout_gravity="center"
-            android:background="@drawable/usuarios"/>
+            android:src="@drawable/usuarios"/>
 
         <TextView
             android:id="@+id/tV14"
@@ -126,7 +130,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="31dp"
             android:layout_marginTop="40dp"
-            android:layout_marginEnd="267dp"
             android:text="Usuario:"
             android:textSize="30sp"
             android:textStyle="bold" />
