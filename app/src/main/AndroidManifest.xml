@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AuspectusPantallas">
         <activity
+            android:name=".activity_naturaleza"
+            android:exported="false" />
+        <activity
+            android:name=".activity_acentos"
+            android:exported="false" />
+        <activity
+            android:name=".activity_animal_nivel2"
+            android:exported="false" />
+        <activity
             android:name=".InicioSesion"
             android:exported="true">
             <intent-filter>

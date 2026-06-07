@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         btn1.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, Niveles.class)));
-        btn2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, Acentos1.class)));
+        btn2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, activity_acentos.class)));
 //        btn3.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, OtraActivity.class)));
 //        btn4.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, OtraActivity2.class)));
     }
