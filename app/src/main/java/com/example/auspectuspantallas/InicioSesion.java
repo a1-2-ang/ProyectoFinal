@@ -118,7 +118,7 @@ public class InicioSesion extends AppCompatActivity {
 
                     // Ir a MainActivity
                     Intent intent = new Intent(InicioSesion.this, MainActivity.class);
-                    intent.putExtra("usuario", usuario);
+                    //intent.putExtra("usuario", usuario);
                     startActivity(intent);
                     finish();
                 } else {

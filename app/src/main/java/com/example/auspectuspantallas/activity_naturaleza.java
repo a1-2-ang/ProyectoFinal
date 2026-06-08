@@ -102,50 +102,6 @@ public class activity_naturaleza extends AppCompatActivity {
         btnNat3.setOnClickListener(v -> manejarSeleccion(btnNat3, R.id.btnNat3, pares));
         btnNat4.setOnClickListener(v -> manejarSeleccion(btnNat4, R.id.btnNat4, pares));
     }
-
-    /*private void manejarSeleccion(Button btn, int valor, Map<Integer, Integer> pares) {
-        // Si es audio, reproducirlo
-        if (pares.containsKey(valor)) {
-            mp = MediaPlayer.create(this, valor);
-            mp.start();
-        }
-
-        if (primerSeleccion == null) {
-            primerSeleccion = btn;
-            primerValor = valor;
-            btn.setBackgroundColor(Color.DKGRAY);
-        } else {
-            if (pares.containsKey(primerValor) && pares.get(primerValor) == valor) {
-                // Acierto
-                primerSeleccion.setBackgroundColor(Color.GREEN);
-                btn.setBackgroundColor(Color.GREEN);
-                primerSeleccion.setEnabled(false);
-                btn.setEnabled(false);
-
-                new Handler().postDelayed(() -> {
-                    if (primerSeleccion != null) primerSeleccion.setVisibility(View.INVISIBLE);
-                    if (btn != null) btn.setVisibility(View.INVISIBLE);
-                    verificarFin(pares);
-                    // Reiniciar referencias después de procesar ambos
-                    primerSeleccion = null;
-                    primerValor = -1;
-                }, 500);
-            } else {
-                // Error
-                primerSeleccion.setBackgroundColor(Color.RED);
-                btn.setBackgroundColor(Color.RED);
-                new Handler().postDelayed(() -> {
-                    restaurarColor(primerSeleccion);
-                    restaurarColor(btn);
-                    primerSeleccion = null;
-                    primerValor = -1;
-                }, 500);
-            }
-            Toast.makeText(this, "" + pares, Toast.LENGTH_LONG).show();
-            primerSeleccion = null;
-            primerValor = -1;
-        }
-    }*/
     private void manejarSeleccion(Button btn, int valor, Map<Integer, Integer> pares) {
         // Si es audio, reproducirlo
         if (pares.containsKey(valor)) {

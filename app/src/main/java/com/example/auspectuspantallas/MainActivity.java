@@ -24,6 +24,7 @@ import androidx.exifinterface.media.ExifInterface;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+
 public class MainActivity extends AppCompatActivity {
     private Button btn1, btn2, btn3, btn4, btnCerrarSesion, btnGuardarCambios;
     private ImageButton btnUsuario, btnPerfil, btnClose;
@@ -117,37 +118,27 @@ public class MainActivity extends AppCompatActivity {
                         btnUsuario.setImageBitmap(nuevaImagenSeleccionada); // actualizar botón redondo
                     }
 
-                    Toast.makeText(MainActivity.this, "Cambios guardados correctamente ✅", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Cambios guardados correctamente", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(MainActivity.this, "No se pudo actualizar ❌", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "No se pudo actualizar", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(MainActivity.this, "No hay cambios para guardar ⚠️", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "No hay cambios para guardar ", Toast.LENGTH_SHORT).show();
             }
         });
 
 
         btnCerrarSesion.setOnClickListener(v -> {
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("sesion_iniciada", false);
-            editor.remove("usuario"); // limpiar usuario guardado
-            editor.apply();
-
+            sesion.cerrarSesion();
             startActivity(new Intent(MainActivity.this, InicioSesion.class));
             finish();
         });
 
-        boolean sesionIniciada = prefs.getBoolean("sesion_iniciada", false);
-        if (!sesionIniciada) {
-            Intent intent = new Intent(MainActivity.this, InicioSesion.class);
-            startActivity(intent);
-            finish();
-        }
 
         btn1.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, Niveles.class)));
         btn2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, activity_acentos.class)));
         btn3.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, activity_naturaleza.class)));
-//        btn4.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, OtraActivity2.class)));
+        btn4.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, activity_objetos.class)));
     }
 
     private Bitmap corregirOrientacion(Uri uri) throws IOException {
