@@ -31,7 +31,7 @@
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:padding="0dp"
-        android:text="Lengua"
+        android:text="Naturaleza"
         android:textColor="#3D3D3D"
         android:backgroundTint="#70A7B0"
         android:textSize="28sp"
