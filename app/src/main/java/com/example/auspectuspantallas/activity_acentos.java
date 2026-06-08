@@ -48,10 +48,16 @@ public class activity_acentos extends AppCompatActivity {
 
             // Lista de ejercicios (audio + respuesta esperada)
             ejercicios = Arrays.asList(
-                    new EjercicioAcento(R.raw.acento_argentino, "ARGENTINO"),
-                    new EjercicioAcento(R.raw.caballo, "MEXICANO"),//acento_mexicano
-                    new EjercicioAcento(R.raw.vaca, "CUBANO")//acento_cubano
-                    // agrega más acentos aquí
+                    new EjercicioAcento(R.raw.acento_argentino, "ARGENTINO"),//1
+                    new EjercicioAcento(R.raw.chileno, "CHILENO"),//2
+                    new EjercicioAcento(R.raw.peruano, "PERUANO"),//3
+                    new EjercicioAcento(R.raw.cubano, "CUBANO"),//acento_cubano //4
+                    new EjercicioAcento(R.raw.castellano,"CASTELLANO"),//5
+                    new EjercicioAcento(R.raw.colombiano,"COLOMBIANO"),//6
+                    new EjercicioAcento(R.raw.brasil,"BRASILEÑO"),//7
+                    new EjercicioAcento(R.raw.venezolano,"VENEZOLANO"), //8
+                    new EjercicioAcento(R.raw.mexicano,"MEXICANO"),  //9
+                    new EjercicioAcento(R.raw.puerto_rico,"PUERTO RIQUEÑO")
             );
 
             // Mostrar primer ejercicio
