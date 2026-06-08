@@ -51,7 +51,13 @@ public class InicioSesion extends AppCompatActivity {
         btnRegistar1 = findViewById(R.id.btnRegistar1);
         btnIS2 = findViewById(R.id.btnIS2);
         img1 = findViewById(R.id.img1);
-
+        SessionManager sesion =
+                new SessionManager(this);
+        if(sesion.haySesion()) {
+            Intent intent = new Intent(InicioSesion.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
         // Cambiar entre login y registro
         btnRegistrarInicio.setOnClickListener(v -> {
             layoutLogin.setVisibility(View.GONE);
@@ -100,22 +106,15 @@ public class InicioSesion extends AppCompatActivity {
             if (usuario.isEmpty() || contrasena.isEmpty()) {
                 Toast.makeText(this, "Coloca todos los campos", Toast.LENGTH_SHORT).show();
             } else {
-                boolean valido = dbHelper.validarUsuario(usuario, contrasena);
-                if (valido) {
+                Usuario valido = dbHelper.validarUsuario(usuario, contrasena);
+                if (valido != null) {
                     Toast.makeText(this, "Bienvenido " + usuario, Toast.LENGTH_SHORT).show();
 
+                    //la clase Sessionmanager es donde se guarda toda la informacion de la cuenta del usuario
 
-
-                    // Guardar sesión y usuario en SharedPreferences
-                    SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    if (editor != null){
-                        editor.putBoolean("sesion_iniciada", true);
-                        editor.putString("usuario", usuario);
-                        editor.apply();
-                    } else {
-                        editor.clear();
-                    }
+                    sesion.guardarUsuario(
+                            valido.getId(),
+                            valido.getNombre());
 
                     // Ir a MainActivity
                     Intent intent = new Intent(InicioSesion.this, MainActivity.class);

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -7,191 +8,197 @@
     android:layout_height="match_parent"
     tools:context=".InicioSesion">
 
-    <TextView
-        android:id="@+id/TvId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Id:"
-        android:visibility="gone"/>
-
-    <LinearLayout
-        android:id="@+id/layoutLogin"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/Text1"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="85dp"
-            android:text="INICIAR SESION"
-            android:textSize="40sp"
-            android:textStyle="bold"/>
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="31dp"
-            android:layout_marginTop="88dp"
-            android:text="Usuario:"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/TvId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Id:"
+                android:visibility="gone"/>
 
-        <EditText
-            android:id="@+id/EtUsuario"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="31dp"
-            android:layout_marginEnd="30dp"
-            android:hint="Usuario:"
-            android:textSize="20sp" />
+            <!-- LOGIN -->
 
-        <TextView
-            android:id="@+id/text5"
-            android:layout_width="187dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="31dp"
-            android:layout_marginTop="36dp"
-            android:layout_marginEnd="267dp"
-            android:text="Contraseña:"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            <LinearLayout
+                android:id="@+id/layoutLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/EtContra"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="31dp"
-            android:layout_marginEnd="30dp"
-            android:hint="Contraseña:"
-            android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/Text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="50dp"
+                    android:text="INICIAR SESIÓN"
+                    android:textSize="32sp"
+                    android:textStyle="bold"/>
 
-        <Button
-            android:id="@+id/btnIniciarSesion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="28dp"
-            android:backgroundTint="@color/bronce"
-            android:text="Iniciar Sesion"
-            android:textColor="@color/white"
-            android:textSize="40sp"
-            android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="60dp"
+                    android:text="Usuario:"
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
 
-        <Button
-            android:id="@+id/btnRegistrarInicio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:backgroundTint="#00FFFFFF"
-            android:text="Registrarme"
-            android:layout_gravity="center"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/EtUsuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:hint="Usuario"
+                    android:textSize="18sp"/>
 
-    <LinearLayout
-        android:id="@+id/layoutRegistro"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    android:text="Contraseña:"
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/Te1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="95dp"
-            android:layout_marginTop="85dp"
-            android:layout_marginEnd="96dp"
-            android:text="REGISTRAR"
-            android:textSize="40sp"
-            android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/EtContra"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:hint="Contraseña"
+                    android:inputType="textPassword"
+                    android:textSize="18sp"/>
 
-        <ImageButton
-            android:id="@+id/img1"
-            android:layout_width="220dp"
-            android:layout_height="230dp"
-            android:layout_marginStart="33dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="33dp"
-            android:background="@android:color/transparent"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            android:layout_gravity="center"
-            android:src="@drawable/usuarios"/>
+                <Button
+                    android:id="@+id/btnIniciarSesion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:backgroundTint="@color/bronce"
+                    android:text="Iniciar Sesión"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/tV14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="31dp"
-            android:layout_marginTop="40dp"
-            android:text="Usuario:"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+                <Button
+                    android:id="@+id/btnRegistrarInicio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="@android:color/transparent"
+                    android:text="Registrarme"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/EtUsuarioReg"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="31dp"
-            android:layout_marginEnd="30dp"
-            android:hint="Usuario:"
-            android:textSize="20sp"/>
+            <!-- REGISTRO -->
 
-        <TextView
-            android:id="@+id/txt51"
-            android:layout_width="201dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="31dp"
-            android:layout_marginTop="36dp"
-            android:layout_marginEnd="267dp"
-            android:text="Contraseña:"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            <LinearLayout
+                android:id="@+id/layoutRegistro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-        <EditText
-            android:id="@+id/EtContraReg"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="31dp"
-            android:layout_marginEnd="30dp"
-            android:hint="Contraseña:"
-            android:textSize="20sp"/>
+                <TextView
+                    android:id="@+id/Te1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="50dp"
+                    android:text="REGISTRAR"
+                    android:textSize="32sp"
+                    android:textStyle="bold"/>
 
-        <Button
-            android:id="@+id/btnRegistar1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="28dp"
-            android:backgroundTint="@color/bronce"
-            android:text="Registrarme"
-            android:textColor="@color/white"
-            android:textSize="40sp"
-            android:textStyle="bold"/>
+                <ImageButton
+                    android:id="@+id/img1"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="25dp"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/usuarios"/>
 
-        <Button
-            android:id="@+id/btnIS2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:backgroundTint="#00FFFFFF"
-            android:text="Iniciar Sesion"
-            android:layout_gravity="center"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Usuario:"
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:id="@+id/EtUsuarioReg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:hint="Usuario"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    android:text="Contraseña:"
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:id="@+id/EtContraReg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:hint="Contraseña"
+                    android:inputType="textPassword"
+                    android:textSize="18sp"/>
+
+                <Button
+                    android:id="@+id/btnRegistar1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:backgroundTint="@color/bronce"
+                    android:text="Registrarme"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/btnIS2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="@android:color/transparent"
+                    android:text="Iniciar Sesión"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

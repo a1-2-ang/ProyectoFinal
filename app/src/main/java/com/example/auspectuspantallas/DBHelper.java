@@ -49,14 +49,33 @@ public class DBHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    public boolean validarUsuario(String usuario, String contrasena) {
+    public Usuario validarUsuario(String usuario, String contrasena) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM Usuarios WHERE usuario=? AND contrasena=?",
+        Cursor c = db.rawQuery("SELECT * FROM Usuarios WHERE usuario=? AND contrasena=?",
                 new String[]{usuario, contrasena});
-        boolean existe = cursor.getCount() > 0;
-        cursor.close();
-        db.close();
-        return existe;
+        Usuario usuarioData = null;
+
+        if(c.moveToFirst()){
+
+            usuarioData = new Usuario();
+
+            usuarioData.setId(
+                    c.getInt(
+                            c.getColumnIndexOrThrow("id")));
+
+            usuarioData.setNombre(
+                    c.getString(
+                            c.getColumnIndexOrThrow("usuario")));
+
+            usuarioData.setPassword(
+                    c.getString(
+                            c.getColumnIndexOrThrow("contrasena")));
+            usuarioData.setImagen(
+                    c.getBlob(
+                            c.getColumnIndexOrThrow("imagen")));
+        }
+        c.close();
+        return usuarioData;
     }
 
     public byte[] obtenerImagen(String usuario) {

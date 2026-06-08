@@ -56,9 +56,10 @@ public class MainActivity extends AppCompatActivity {
         etNombreUsuario = findViewById(R.id.etNombreUsuario);
 
         dbHelper = new DBHelper(this);
-
+        SessionManager sesion =
+                new SessionManager(this);
         SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
-        usuario = prefs.getString("usuario", getIntent().getStringExtra("usuario"));
+        usuario = prefs.getString("usuario", sesion.getUsuarioNombre());
 
         etNombreUsuario.setText(usuario);
 
