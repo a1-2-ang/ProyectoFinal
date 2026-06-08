@@ -7,6 +7,19 @@
     android:layout_height="match_parent"
     tools:context=".Niveles">
 
+    <ImageButton
+        android:id="@+id/imgBtnSalir"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/borrar"
+        android:layout_gravity="end"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"

@@ -20,4 +20,11 @@
         <item name="android:textColorPrimary">#000000</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="MiEstiloAlerta3" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="android:background">#F3D98F</item>
+        <item name="colorAccent">#7298C7</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>
