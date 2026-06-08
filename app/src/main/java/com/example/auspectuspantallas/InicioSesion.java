@@ -1,7 +1,9 @@
 package com.example.auspectuspantallas;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.net.Uri;
@@ -16,13 +18,13 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.exifinterface.media.ExifInterface;
 
 import java.io.IOException;
 //Prueba 1 Monzon
 public class InicioSesion extends AppCompatActivity {
-    private static final int PICK_IMAGE = 100;
-
     private LinearLayout layoutLogin, layoutRegistro;
     private EditText EtUsuario, EtContra, EtUsuarioReg, EtContraReg;
     private Button btnIniciarSesion, btnRegistrarInicio, btnRegistar1, btnIS2;
@@ -30,6 +32,10 @@ public class InicioSesion extends AppCompatActivity {
     private DBHelper dbHelper;
 
     private Bitmap imagenSeleccionada;
+
+    private static final int PICK_IMAGE = 100;
+    private static final int TAKE_PHOTO = 200;
+    private static final int REQUEST_PERMISSIONS = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +75,26 @@ public class InicioSesion extends AppCompatActivity {
             layoutLogin.setVisibility(View.VISIBLE);
         });
 
+        verificarPermisos();
+
         // Seleccionar imagen en registro
         img1.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, PICK_IMAGE);
+            String[] opciones = {"Tomar foto", "Elegir de galería"};
+
+            new android.app.AlertDialog.Builder(InicioSesion.this)
+                    .setTitle("Seleccionar imagen")
+                    .setItems(opciones, (dialog, which) -> {
+                        if (which == 0) {
+                            // Tomar foto con cámara
+                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            startActivityForResult(intent, TAKE_PHOTO);
+                        } else {
+                            // Elegir de galería
+                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(intent, PICK_IMAGE);
+                        }
+                    })
+                    .show();
         });
 
         // Registrar nuevo usuario
@@ -129,6 +151,16 @@ public class InicioSesion extends AppCompatActivity {
     }
 
     // Método para corregir orientación de imágenes
+
+    private void verificarPermisos() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE},
+                    REQUEST_PERMISSIONS);
+        }
+    }
+
     private Bitmap corregirOrientacion(Uri uri) throws IOException {
         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
 
@@ -156,15 +188,22 @@ public class InicioSesion extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
-            Uri imageUri = data.getData();
-            try {
-                // Corregir orientación automáticamente
-                imagenSeleccionada = corregirOrientacion(imageUri);
-
-                img1.setImageBitmap(imagenSeleccionada);
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == PICK_IMAGE) {
+                // Imagen desde galería
+                Uri imageUri = data.getData();
+                try {
+                    imagenSeleccionada = corregirOrientacion(imageUri);
+                    img1.setImageBitmap(imagenSeleccionada);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (requestCode == TAKE_PHOTO) {
+                // Foto tomada con cámara (thumbnail)
+                Bundle extras = data.getExtras();
+                Bitmap foto = (Bitmap) extras.get("data");
+                img1.setImageBitmap(foto);
+                imagenSeleccionada = foto;
             }
         }
     }
