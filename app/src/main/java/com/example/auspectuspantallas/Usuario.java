@@ -1,6 +1,8 @@
 package com.example.auspectuspantallas;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import java.io.ByteArrayOutputStream;
 
 public class Usuario {
 
@@ -46,11 +48,21 @@ public class Usuario {
     public void setPassword(String password){
         this.password=password;
     }
-    public byte[] getImagen(){
-        return Imagen;
+
+    public byte[] getImagen(){ return Imagen; }
+    public void setImagen(byte[] Imagen){ this.Imagen = Imagen; }
+    public void setImagenBitmap(Bitmap bitmap){
+        if (bitmap != null) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream); // comprime al 80%
+            this.Imagen = stream.toByteArray();
+        }
     }
 
-    public void setImagen(byte[] imagen){
-        this.Imagen=imagen;
+    public Bitmap getImagenBitmap(){
+        if (Imagen != null) {
+            return BitmapFactory.decodeByteArray(Imagen, 0, Imagen.length);
+        }
+        return null;
     }
 }

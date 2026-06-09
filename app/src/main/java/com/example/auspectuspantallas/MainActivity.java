@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -19,14 +20,16 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.FileProvider;
 import androidx.exifinterface.media.ExifInterface;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 
 
 public class MainActivity extends AppCompatActivity {
-    private Button btn1, btn2, btn3, btn4, btnCerrarSesion, btnGuardarCambios;
+    private Button btn1, btn2, btn3, btn4, btnCerrarSesion, btnGuardarCambios, btnEliminarCuenta;
     private ImageButton btnUsuario, btnPerfil, btnClose;
     private EditText etNombreUsuario;
     private CardView cardUsuario;
@@ -34,7 +37,9 @@ public class MainActivity extends AppCompatActivity {
     private DBHelper dbHelper;
     private String usuario;
     private Bitmap nuevaImagenSeleccionada;
-    private static final int PICK_IMAGE = 400;
+    private Uri fotoUri;
+    private static final int PICK_IMAGE = 100;
+    private static final int TAKE_PHOTO = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         cardUsuario = findViewById(R.id.cardUsuario);
         btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
         btnGuardarCambios = findViewById(R.id.btnGuardarCambios);
+        btnEliminarCuenta = findViewById(R.id.btnEliminarCuenta);
 
         btnClose = findViewById(R.id.BtnClose);
         btnUsuario = findViewById(R.id.btnUsuario);
@@ -64,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         etNombreUsuario.setText(usuario);
 
-        byte[] imagenBytes = dbHelper.obtenerImagen(usuario);
+        byte[] imagenBytes = dbHelper.obtenerImagen(sesion.getUsuarioId());
         if (imagenBytes != null) {
             Bitmap bitmap = BitmapFactory.decodeByteArray(imagenBytes, 0, imagenBytes.length);
             btnUsuario.setImageBitmap(bitmap);
@@ -83,8 +89,26 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnPerfil.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, PICK_IMAGE);
+            String[] opciones = {"Tomar foto", "Elegir de galería"};
+
+            new android.app.AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Seleccionar imagen")
+                    .setItems(opciones, (dialog, which) -> {
+                        if (which == 0) {
+                            // Usa el mismo flujo de cámara que en InicioSesion
+                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            File fotoArchivo = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "perfil_temp.jpg");
+                            fotoUri = FileProvider.getUriForFile(this,
+                                    "com.example.auspectuspantallas.fileprovider",
+                                    fotoArchivo);
+                            intent.putExtra(MediaStore.EXTRA_OUTPUT, fotoUri);
+                            startActivityForResult(intent, TAKE_PHOTO);
+                        } else {
+                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(intent, PICK_IMAGE);
+                        }
+                    })
+                    .show();
         });
 
         btnGuardarCambios.setOnClickListener(v -> {
@@ -97,13 +121,13 @@ public class MainActivity extends AppCompatActivity {
 
             if (nuevaImagenSeleccionada != null) {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                nuevaImagenSeleccionada.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                nuevaImagenSeleccionada.compress(Bitmap.CompressFormat.JPEG, 80, stream);
                 values.put("imagen", stream.toByteArray());
             }
 
             if (values.size() > 0) {
                 int filas = dbHelper.getWritableDatabase()
-                        .update("Usuarios", values, "usuario=?", new String[]{usuario});
+                        .update("Usuarios", values, "id=?", new String[]{String.valueOf(sesion.getUsuarioId())});
 
                 if (filas > 0) {
                     // Actualizar variables y SharedPreferences
@@ -115,7 +139,8 @@ public class MainActivity extends AppCompatActivity {
                     editor.apply();
 
                     if (nuevaImagenSeleccionada != null) {
-                        btnUsuario.setImageBitmap(nuevaImagenSeleccionada); // actualizar botón redondo
+                        btnUsuario.setImageBitmap(nuevaImagenSeleccionada);
+                        btnPerfil.setImageBitmap(nuevaImagenSeleccionada);
                     }
 
                     Toast.makeText(MainActivity.this, "Cambios guardados correctamente", Toast.LENGTH_SHORT).show();
@@ -123,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "No se pudo actualizar", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(MainActivity.this, "No hay cambios para guardar ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "No hay cambios para guardar", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -134,6 +159,29 @@ public class MainActivity extends AppCompatActivity {
             finish();
         });
 
+        btnEliminarCuenta.setOnClickListener(v -> {
+            // Crear objeto Usuario con el id actual
+            Usuario usuarioActual = new Usuario();
+            usuarioActual.setId(sesion.getUsuarioId());
+
+            // Eliminar usuario de la BD
+            int filas = dbHelper.getWritableDatabase()
+                    .delete("Usuarios", "id=?", new String[]{String.valueOf(usuarioActual.getId())});
+
+            if (filas > 0) {
+                // Cerrar sesión y limpiar preferencias
+                sesion.cerrarSesion();
+                prefs.edit().clear().apply(); // 👈 aquí ya usas el prefs que declaraste arriba
+
+                Toast.makeText(MainActivity.this, "Cuenta eliminada correctamente", Toast.LENGTH_SHORT).show();
+
+                // Volver a InicioSesion
+                startActivity(new Intent(MainActivity.this, InicioSesion.class));
+                finish();
+            } else {
+                Toast.makeText(MainActivity.this, "No se pudo eliminar la cuenta", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         btn1.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, activity_animal_nivel1.class)));
         btn2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, activity_acentos.class)));
@@ -167,17 +215,29 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
-            Uri imageUri = data.getData();
-            try {
-                nuevaImagenSeleccionada = corregirOrientacion(imageUri);
-
-                btnPerfil.setImageBitmap(nuevaImagenSeleccionada);
-                btnUsuario.setImageBitmap(nuevaImagenSeleccionada);
-
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (resultCode == RESULT_OK) {
+            if (requestCode == PICK_IMAGE && data != null) {
+                // Imagen desde galería
+                Uri imageUri = data.getData();
+                try {
+                    nuevaImagenSeleccionada = corregirOrientacion(imageUri);
+                    btnPerfil.setImageBitmap(nuevaImagenSeleccionada);
+                    btnUsuario.setImageBitmap(nuevaImagenSeleccionada);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (requestCode == TAKE_PHOTO) {
+                // Foto tomada con cámara
+                if (fotoUri != null) {
+                    try {
+                        nuevaImagenSeleccionada = corregirOrientacion(fotoUri);
+                        btnPerfil.setImageBitmap(nuevaImagenSeleccionada);
+                        btnUsuario.setImageBitmap(nuevaImagenSeleccionada);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Toast.makeText(this, "Error al cargar foto", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         }
     }

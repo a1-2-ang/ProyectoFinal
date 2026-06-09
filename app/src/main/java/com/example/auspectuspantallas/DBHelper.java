@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import java.io.ByteArrayOutputStream;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -40,7 +42,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         if (imagenBitmap != null) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            imagenBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            imagenBitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
             values.put("imagen", stream.toByteArray());
         }
 
@@ -70,18 +72,22 @@ public class DBHelper extends SQLiteOpenHelper {
             usuarioData.setPassword(
                     c.getString(
                             c.getColumnIndexOrThrow("contrasena")));
-            usuarioData.setImagen(
-                    c.getBlob(
-                            c.getColumnIndexOrThrow("imagen")));
+
+            byte[] imgBytes = c.getBlob(c.getColumnIndexOrThrow("imagen"));
+           if (imgBytes != null){
+               usuarioData.setImagen(imgBytes);
+           }
+            c.close();
+            return usuarioData;
         }
         c.close();
-        return usuarioData;
+        return null;
     }
 
-    public byte[] obtenerImagen(String usuario) {
+    public byte[] obtenerImagen(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT imagen FROM Usuarios WHERE usuario=?",
-                new String[]{usuario});
+        Cursor cursor = db.rawQuery("SELECT imagen FROM Usuarios WHERE id=?",
+                new String[]{String.valueOf(id)});
         if (cursor.moveToFirst()) {
             byte[] imagen = cursor.getBlob(0);
             cursor.close();
