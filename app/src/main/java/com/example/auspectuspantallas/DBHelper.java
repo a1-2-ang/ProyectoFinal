@@ -10,7 +10,7 @@ import android.graphics.Bitmap;
 import java.io.ByteArrayOutputStream;
 
 public class DBHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "miapp.db";
+    private static final String DATABASE_NAME = "dbapp1.db";
     private static final int DATABASE_VERSION = 1;
 
     public DBHelper(Context context) {
