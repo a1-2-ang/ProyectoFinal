@@ -48,10 +48,10 @@ public class activity_naturaleza extends AppCompatActivity {
 
         // Definir niveles con sonidos y textos
         Map<Integer, Integer> paresNivel1 = new HashMap<>();
-        paresNivel1.put(R.raw.miau, R.id.btnNat1);//R.raw.playa
-        paresNivel1.put(R.raw.oveja, R.id.btnNat2);//R.raw.bosque
-        paresNivel1.put(R.raw.buho, R.id.btnNat3);//R.raw.desierto
-        paresNivel1.put(R.raw.vaca, R.id.btnNat4);//R.raw.montana
+        paresNivel1.put(R.raw.playa, R.id.btnNat1);//R.raw.miau
+        paresNivel1.put(R.raw.bosque, R.id.btnNat2);//R.raw.oveja
+        paresNivel1.put(R.raw.desierto, R.id.btnNat3);//R.raw.buho
+        paresNivel1.put(R.raw.montana, R.id.btnNat4);//R.raw.vaca
 
         mpCorrecto = MediaPlayer.create(this, R.raw.correct);
         mpIncorrecto = MediaPlayer.create(this, R.raw.incorrect);
@@ -59,10 +59,10 @@ public class activity_naturaleza extends AppCompatActivity {
         String[] textosNivel1 = {"Playa", "Bosque", "Desierto", "Montaña"};
 
         Map<Integer, Integer> paresNivel2 = new HashMap<>();
-        paresNivel2.put(R.raw.caballo, R.id.btnNat1);//R.raw.lluvia
-        paresNivel2.put(R.raw.acento_argentino, R.id.btnNat2);//R.raw.trueno
-        paresNivel2.put(R.raw.chileno, R.id.btnNat3);//R.raw.viento
-        paresNivel2.put(R.raw.miau, R.id.btnNat4);//R.raw.pajaros
+        paresNivel2.put(R.raw.lluvia, R.id.btnNat1);//R.raw.caballo
+        paresNivel2.put(R.raw.trueno, R.id.btnNat2);//R.raw.acento_argentino
+        paresNivel2.put(R.raw.viento, R.id.btnNat3);//R.raw.chileno
+        paresNivel2.put(R.raw.pajaros, R.id.btnNat4);//R.raw.miau
 
         String[] textosNivel2 = {"Lluvia", "Trueno", "Viento", "Pájaros"};
 
@@ -106,21 +106,35 @@ public class activity_naturaleza extends AppCompatActivity {
         // Si es audio, reproducirlo
         if (pares.containsKey(valor)) {
             mp = MediaPlayer.create(this, valor);
+            mp.setOnCompletionListener(mediaPlayer -> {
+                mediaPlayer.release();
+                mp = null;
+            });
             mp.start();
         }
 
         if (primerSeleccion == null) {
             // Guardar primera selección
-            primerSeleccion = btn;
-            primerValor = valor;
-            btn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.azul_oscuro));
-            btn.setEnabled(false);
+            if ((btn.getText().toString()).startsWith("Audio")) {
+                primerSeleccion = btn;
+                primerValor = valor;
+                btn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.img_selec));
+                btn.setEnabled(false);
+                btnAud1.setEnabled(false);
+                btnAud2.setEnabled(false);
+                btnAud3.setEnabled(false);
+                btnAud4.setEnabled(false);
+            }
             //btn.setBackgroundColor(Color.DKGRAY);
         } else if (segundaSeleccion == null) {
             // Guardar segunda selección
             segundaSeleccion = btn;
             segundoValor = valor;
             btn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.azul_oscuro));
+            btnAud1.setEnabled(true);
+            btnAud2.setEnabled(true);
+            btnAud3.setEnabled(true);
+            btnAud4.setEnabled(true);
             //btn.setBackgroundColor(Color.DKGRAY);
 
             // Ya tenemos dos selecciones → validar
@@ -138,6 +152,11 @@ public class activity_naturaleza extends AppCompatActivity {
             segundaSeleccion.setEnabled(false);
 
             new Handler().postDelayed(() -> {
+                if (mp != null && mp.isPlaying()) {
+                    mp.stop();
+                    mp.release();
+                    mp = null;
+                }
                 primerSeleccion.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.azul_bajo));
                 segundaSeleccion.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.azul_bajo));
                 if (primerSeleccion != null) primerSeleccion.setVisibility(View.INVISIBLE);
@@ -157,7 +176,6 @@ public class activity_naturaleza extends AppCompatActivity {
                 resetSeleccion();
             }, 500);
         }
-        Toast.makeText(this, "" + primerSeleccion, Toast.LENGTH_LONG).show();
     }
 
     private void resetSeleccion() {
@@ -172,13 +190,13 @@ public class activity_naturaleza extends AppCompatActivity {
     }
 
     private void verificarFin(Map<Integer, Integer> pares) {
-        if (!btnAud1.isEnabled() && !btnAud2.isEnabled() && !btnAud3.isEnabled() && !btnAud4.isEnabled()) {
+        if (!btnAud1.isShown() && !btnAud2.isShown() && !btnAud3.isShown() && !btnAud4.isShown()) {
             nivelActual++;
             if (nivelActual < niveles.size()) {
-                Toast.makeText(this, "¡Nivel completado! Pasando al siguiente...", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "¡Nivel completado! Pasando al siguiente...", Toast.LENGTH_SHORT).show();
                 cargarNivel(nivelActual);
             } else {
-                Toast.makeText(this, "¡Juego terminado!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "¡Juego terminado!", Toast.LENGTH_LONG).show();
                 finish();
             }
         }

@@ -33,7 +33,7 @@
                 android:layout_width="115dp"
                 android:layout_height="115dp"
                 android:text="Audio 1"
-                android:src="@drawable/gato"
+                android:src="@drawable/agua"
                 android:scaleType="centerCrop"
                 android:background="@android:color/transparent" />
             <ImageButton
@@ -42,7 +42,7 @@
                 android:layout_height="115dp"
                 android:layout_marginTop="25dp"
                 android:text="Audio 2"
-                android:src="@drawable/gato"
+                android:src="@drawable/auto"
                 android:scaleType="centerCrop"
                 android:background="@android:color/transparent"/>
             <ImageButton
@@ -51,7 +51,7 @@
                 android:layout_height="115dp"
                 android:layout_marginTop="25dp"
                 android:text="Audio 3"
-                android:src="@drawable/gato"
+                android:src="@drawable/ventilador"
                 android:scaleType="centerCrop"
                 android:background="@android:color/transparent"/>
             <ImageButton
@@ -60,7 +60,7 @@
                 android:layout_height="115dp"
                 android:layout_marginTop="25dp"
                 android:text="Audio 4"
-                android:src="@drawable/gato"
+                android:src="@drawable/trompeta"
                 android:scaleType="centerCrop"
                 android:background="@android:color/transparent"/>
         </LinearLayout>
@@ -75,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="Playa"
+                android:text="Ventilador"
                 android:textColor="#505070"
                 android:backgroundTint="@color/amarillo"
                 android:textSize="30dp"
@@ -85,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
-                android:text="Bosque"
+                android:text="Trompeta"
                 android:textColor="#505070"
                 android:backgroundTint="@color/amarillo"
                 android:textSize="30dp"
@@ -95,7 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
-                android:text="Desierto"
+                android:text="Auto"
                 android:textColor="#505070"
                 android:backgroundTint="@color/amarillo"
                 android:textSize="30dp"
@@ -105,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
-                android:text="Montaña"
+                android:text="Agua"
                 android:textColor="#505070"
                 android:backgroundTint="@color/amarillo"
                 android:textSize="30dp"

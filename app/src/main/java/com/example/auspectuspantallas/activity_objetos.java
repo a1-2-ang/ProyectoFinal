@@ -23,196 +23,6 @@ import java.util.Map;
 //CHECAR PORQUE AL TERMINAR LA PANTALLA QUEDA EN BLANCO Y LAS IMAGENES NO SE VEN
 
 //activity_objetos
-/*public class activity_objetos extends AppCompatActivity {
-    private ImageButton imgBtnAud1, imgBtnAud2, imgBtnAud3, imgBtnAud4;
-    private Button btnObj1, btnObj2, btnObj3, btnObj4;
-    private MediaPlayer mp, mpCorrecto, mpIncorrecto;
-    private Button primerSeleccion = null, segundaSeleccion = null;
-    private int primerValor = -1, segundoValor = -1;
-    // Lista de niveles
-    private List<NivelNaturaleza> niveles = new ArrayList<>();
-    private int nivelActual = 0;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_naturaleza);
-
-        // Inicializar botones
-        imgBtnAud1 = findViewById(R.id.imgBtnAud1);
-        imgBtnAud2 = findViewById(R.id.imgBtnAud2);
-        imgBtnAud3 = findViewById(R.id.imgBtnAud3);
-        imgBtnAud4 = findViewById(R.id.imgBtnAud4);
-
-        btnObj1 = findViewById(R.id.btnNat1);
-        btnObj2 = findViewById(R.id.btnNat2);
-        btnObj3 = findViewById(R.id.btnNat3);
-        btnObj4 = findViewById(R.id.btnNat4);
-
-        // Definir niveles con sonidos y textos
-        Map<Integer, Integer> paresNivel1 = new HashMap<>();
-        paresNivel1.put(R.raw.miau, R.id.btnObj1);//R.raw.playa
-        paresNivel1.put(R.raw.oveja, R.id.btnObj2);//R.raw.bosque
-        paresNivel1.put(R.raw.buho, R.id.btnObj3);//R.raw.desierto
-        paresNivel1.put(R.raw.vaca, R.id.btnObj4);//R.raw.montana
-
-        mpCorrecto = MediaPlayer.create(this, R.raw.correct);
-        mpIncorrecto = MediaPlayer.create(this, R.raw.incorrect);
-
-        String[] textosNivel1 = {"Playa", "Bosque", "Desierto", "Montaña"};
-
-        Map<Integer, Integer> paresNivel2 = new HashMap<>();
-        paresNivel2.put(R.raw.caballo, R.id.btnObj1);//R.raw.lluvia
-        paresNivel2.put(R.raw.acento_argentino, R.id.btnObj2);//R.raw.trueno
-        paresNivel2.put(R.raw.chileno, R.id.btnObj3);//R.raw.viento
-        paresNivel2.put(R.raw.miau, R.id.btnObj4);//R.raw.pajaros
-
-        String[] textosNivel2 = {"Lluvia", "Trueno", "Viento", "Pájaros"};
-
-        niveles.add(new NivelNaturaleza(paresNivel1, textosNivel1));
-        niveles.add(new NivelNaturaleza(paresNivel2, textosNivel2));
-
-        cargarNivel(nivelActual);
-    }
-
-    private void cargarNivel(int index) {
-        NivelNaturaleza nivel = niveles.get(index);
-        Map<Integer, Integer> pares = nivel.pares;
-        String[] textos = nivel.textos;
-
-        // Restaurar botones de audio
-        restaurarBoton(imgBtnAud1, "Audio 1");
-        restaurarBoton(imgBtnAud2, "Audio 2");
-        restaurarBoton(imgBtnAud3, "Audio 3");
-        restaurarBoton(imgBtnAud4, "Audio 4");
-
-        // Restaurar botones de naturaleza con textos dinámicos
-        restaurarBoton(btnObj1, textos[0]);
-        restaurarBoton(btnObj2, textos[1]);
-        restaurarBoton(btnObj3, textos[2]);
-        restaurarBoton(btnObj4, textos[3]);
-
-        // Asignar listeners de audio
-        Integer[] audios = pares.keySet().toArray(new Integer[0]);
-        imgBtnAud1.setOnClickListener(v -> manejarSeleccion(imgBtnAud1, audios[0], pares));
-        imgBtnAud2.setOnClickListener(v -> manejarSeleccion(imgBtnAud2, audios[1], pares));
-        imgBtnAud3.setOnClickListener(v -> manejarSeleccion(imgBtnAud3, audios[2], pares));
-        imgBtnAud4.setOnClickListener(v -> manejarSeleccion(imgBtnAud4, audios[3], pares));
-
-        // Asignar listeners de naturaleza
-        btnObj1.setOnClickListener(v -> manejarSeleccion(btnObj1, R.id.btnNat1, pares));
-        btnObj2.setOnClickListener(v -> manejarSeleccion(btnObj2, R.id.btnNat2, pares));
-        btnObj3.setOnClickListener(v -> manejarSeleccion(btnObj3, R.id.btnNat3, pares));
-        btnObj4.setOnClickListener(v -> manejarSeleccion(btnObj4, R.id.btnNat4, pares));
-    }
-    private void manejarSeleccion(Button btn, int valor, Map<Integer, Integer> pares) {
-        // Si es audio, reproducirlo
-        if (pares.containsKey(valor)) {
-            mp = MediaPlayer.create(this, valor);
-            mp.start();
-        }
-
-        if (primerSeleccion == null) {
-            // Guardar primera selección
-            primerSeleccion = btn;
-            primerValor = valor;
-            btn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.azul_oscuro));
-            btn.setEnabled(false);
-            //btn.setBackgroundColor(Color.DKGRAY);
-        } else if (segundaSeleccion == null) {
-            // Guardar segunda selección
-            segundaSeleccion = btn;
-            segundoValor = valor;
-            btn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.azul_oscuro));
-            //btn.setBackgroundColor(Color.DKGRAY);
-
-            // Ya tenemos dos selecciones → validar
-            validarSeleccion(pares);
-        }
-    }
-
-    private void validarSeleccion(Map<Integer, Integer> pares) {
-        if (pares.containsKey(primerValor) && pares.get(primerValor) == segundoValor) {
-            // Acierto
-            mpCorrecto.start();
-            primerSeleccion.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.verde));
-            segundaSeleccion.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.verde));
-            primerSeleccion.setEnabled(false);
-            segundaSeleccion.setEnabled(false);
-
-            new Handler().postDelayed(() -> {
-                primerSeleccion.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.azul_bajo));
-                segundaSeleccion.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.azul_bajo));
-                if (primerSeleccion != null) primerSeleccion.setVisibility(View.INVISIBLE);
-                if (segundaSeleccion != null) segundaSeleccion.setVisibility(View.INVISIBLE);
-                verificarFin(pares);
-                resetSeleccion();
-            }, 500);
-        } else {
-            // Error
-            mpIncorrecto.start();
-            primerSeleccion.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.rojo));
-            segundaSeleccion.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.rojo));
-
-            new Handler().postDelayed(() -> {
-                primerSeleccion.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.azul_bajo));
-                segundaSeleccion.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.azul_bajo));
-                resetSeleccion();
-            }, 500);
-        }
-        Toast.makeText(this, "" + primerSeleccion, Toast.LENGTH_LONG).show();
-    }
-
-    private void resetSeleccion() {
-        if (primerSeleccion != null && primerSeleccion.isShown()) {
-            primerSeleccion.setEnabled(true);
-        }
-
-        primerSeleccion = null;
-        segundaSeleccion = null;
-        primerValor = -1;
-        segundoValor = -1;
-    }
-
-    private void verificarFin(Map<Integer, Integer> pares) {
-        if (!btnAud1.isEnabled() && !btnAud2.isEnabled() && !btnAud3.isEnabled() && !btnAud4.isEnabled()) {
-            nivelActual++;
-            if (nivelActual < niveles.size()) {
-                Toast.makeText(this, "¡Nivel completado! Pasando al siguiente...", Toast.LENGTH_SHORT).show();
-                cargarNivel(nivelActual);
-            } else {
-                Toast.makeText(this, "¡Juego terminado!", Toast.LENGTH_LONG).show();
-                finish();
-            }
-        }
-        //if (!btnAud1.isShown() && !btnAud2.isShown() && !btnAud3.isShown() && !btnAud4.isShown()) {}
-    }
-
-    private void restaurarBoton(Button btn, String texto) {
-        btn.setVisibility(View.VISIBLE);
-        btn.setEnabled(true);
-        btn.setText(texto);
-        btn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.azul_bajo));
-        //restaurarColor(btn);
-    }
-
-    private void restaurarColor(Button btn) {
-        if (btn != null && btn.isShown()) {//
-            btn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.azul_bajo));
-        }
-    }
-}
-
-// Clase para cada nivel
-class NivelObjetos {
-    Map<Integer, Integer> pares;
-    String[] textos;
-
-    NivelObjetos(Map<Integer, Integer> pares, String[] textos) {
-        this.pares = pares;
-        this.textos = textos;
-    }
-}*/
 public class activity_objetos extends AppCompatActivity {
     private ImageButton imgBtnAud1, imgBtnAud2, imgBtnAud3, imgBtnAud4;
     private Button btnObj1, btnObj2, btnObj3, btnObj4;
@@ -245,23 +55,25 @@ public class activity_objetos extends AppCompatActivity {
 
         // Definir niveles con sonidos y textos
         Map<Integer, Integer> paresNivel1 = new HashMap<>();
-        paresNivel1.put(R.raw.miau, R.id.btnObj1);
-        paresNivel1.put(R.raw.oveja, R.id.btnObj2);
-        paresNivel1.put(R.raw.buho, R.id.btnObj3);
-        paresNivel1.put(R.raw.vaca, R.id.btnObj4);
+        paresNivel1.put(R.raw.auto, R.id.btnObj1);
+        paresNivel1.put(R.raw.trompeta, R.id.btnObj4);
+        paresNivel1.put(R.raw.ventilador, R.id.btnObj3);
+        paresNivel1.put(R.raw.agua, R.id.btnObj2);
 
-        String[] textosNivel1 = {"Auto", "Trompeta", "Ventilador", "Agua"};
+        String[] textosNivel1 = {"Ventilador", "Agua", "Auto", "Trompeta"};
+        int[] imagenesNivel1 = {R.drawable.auto, R.drawable.trompeta, R.drawable.ventilador, R.drawable.agua};
 
         Map<Integer, Integer> paresNivel2 = new HashMap<>();
-        paresNivel2.put(R.raw.caballo, R.id.btnObj1);
-        paresNivel2.put(R.raw.acento_argentino, R.id.btnObj2);
-        paresNivel2.put(R.raw.chileno, R.id.btnObj3);
-        paresNivel2.put(R.raw.miau, R.id.btnObj4);
+        paresNivel2.put(R.raw.telefono, R.id.btnObj4);
+        paresNivel2.put(R.raw.puerta, R.id.btnObj3);
+        paresNivel2.put(R.raw.bicicleta, R.id.btnObj1);
+        paresNivel2.put(R.raw.fuego, R.id.btnObj2);
 
-        String[] textosNivel2 = {"Telefono", "Puerta", "Bicicleta", "Fuego"};
+        String[] textosNivel2 = {"Bicicleta", "Fuego", "Puerta", "Telefono"};
+        int[] imagenesNivel2 = {R.drawable.telefono, R.drawable.puerta, R.drawable.fuego, R.drawable.bicicleta};
 
-        niveles.add(new NivelObjetos(paresNivel1, textosNivel1));
-        niveles.add(new NivelObjetos(paresNivel2, textosNivel2));
+        niveles.add(new NivelObjetos(paresNivel1, textosNivel1, imagenesNivel1));
+        niveles.add(new NivelObjetos(paresNivel2, textosNivel2, imagenesNivel2));
 
         cargarNivel(nivelActual);
     }
@@ -270,12 +82,13 @@ public class activity_objetos extends AppCompatActivity {
         NivelObjetos nivel = niveles.get(index);
         Map<Integer, Integer> pares = nivel.pares;
         String[] textos = nivel.textos;
+        int[] imagenes = nivel.imagenes;
 
         // Restaurar botones de audio (ImageButton)
-        restaurarImageButton(imgBtnAud1);
-        restaurarImageButton(imgBtnAud2);
-        restaurarImageButton(imgBtnAud3);
-        restaurarImageButton(imgBtnAud4);
+        restaurarImageButton(imgBtnAud1, imagenes[0]);
+        restaurarImageButton(imgBtnAud2, imagenes[1]);
+        restaurarImageButton(imgBtnAud3, imagenes[2]);
+        restaurarImageButton(imgBtnAud4, imagenes[3]);
 
         // Restaurar botones de objetos (Button)
         restaurarBoton(btnObj1, textos[0]);
@@ -301,18 +114,42 @@ public class activity_objetos extends AppCompatActivity {
         // Si es audio, reproducirlo
         if (pares.containsKey(valor)) {
             mp = MediaPlayer.create(this, valor);
+            mp.setOnCompletionListener(mediaPlayer -> {
+                mediaPlayer.release();
+                mp = null;
+            });
             mp.start();
+            /*mp = MediaPlayer.create(this, valor);
+            mp.start();*/
         }
 
         if (primerSeleccion == null) {
-            primerSeleccion = btn;
-            primerValor = valor;
+            // Primera selección debe ser un ImageButton
+            if (btn instanceof ImageButton) {
+                primerSeleccion = btn;
+                primerValor = valor;
+                marcarSeleccion(btn, R.color.img_selec);
+                imgBtnAud1.setEnabled(false);
+                imgBtnAud2.setEnabled(false);
+                imgBtnAud3.setEnabled(false);
+                imgBtnAud4.setEnabled(false);
+            } else {
+                Toast.makeText(this, "Primero selecciona un botón de audio", Toast.LENGTH_SHORT).show();
+            }
             //marcarSeleccion(btn, R.color.azul_oscuro);
         } else if (segundaSeleccion == null) {
-            segundaSeleccion = btn;
-            segundoValor = valor;
-            //marcarSeleccion(btn, R.color.azul_oscuro);
-            validarSeleccion(pares);
+            if (btn instanceof Button) {
+                segundaSeleccion = btn;
+                segundoValor = valor;
+                marcarSeleccion(btn, R.color.img_selec);
+                validarSeleccion(pares);
+                imgBtnAud1.setEnabled(true);
+                imgBtnAud2.setEnabled(true);
+                imgBtnAud3.setEnabled(true);
+                imgBtnAud4.setEnabled(true);
+            } else {
+                Toast.makeText(this, "Después selecciona un botón de objeto", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -320,10 +157,15 @@ public class activity_objetos extends AppCompatActivity {
         if (pares.containsKey(primerValor) && pares.get(primerValor) == segundoValor) {
             //Acierto
             mpCorrecto.start();
-            marcarSeleccion(primerSeleccion, R.color.verde);
+            marcarSeleccion(primerSeleccion, R.color.verde_img);
             marcarSeleccion(segundaSeleccion, R.color.verde);
 
             new Handler().postDelayed(() -> {
+                if (mp != null && mp.isPlaying()) {
+                    mp.stop();
+                    mp.release();
+                    mp = null;
+                }
                 primerSeleccion.setVisibility(View.INVISIBLE);
                 segundaSeleccion.setVisibility(View.INVISIBLE);
                 verificarFin(pares);
@@ -332,7 +174,7 @@ public class activity_objetos extends AppCompatActivity {
         } else {
             //Error
             mpIncorrecto.start();
-            marcarSeleccion(primerSeleccion, R.color.rojo);
+            marcarSeleccion(primerSeleccion, R.color.rojo_img);
             marcarSeleccion(segundaSeleccion, R.color.rojo);
 
             new Handler().postDelayed(() -> {
@@ -353,9 +195,9 @@ public class activity_objetos extends AppCompatActivity {
 
     private void restaurarColor(View v) {
         if (v instanceof Button) {
-            ((Button) v).setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.azul_bajo));
+            ((Button) v).setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.amarillo));
         } else if (v instanceof ImageButton) {
-            ((ImageButton) v).setColorFilter(ContextCompat.getColor(this, R.color.azul_bajo));
+            ((ImageButton) v).setColorFilter(ContextCompat.getColor(this, R.color.trans_parente));
         }
     }
 
@@ -367,7 +209,7 @@ public class activity_objetos extends AppCompatActivity {
     }
 
     private void verificarFin(Map<Integer, Integer> pares) {
-        if (!imgBtnAud1.isEnabled() && !imgBtnAud2.isEnabled() && !imgBtnAud3.isEnabled() && !imgBtnAud4.isEnabled()) {
+        if (!imgBtnAud1.isShown() && !imgBtnAud2.isShown() && !imgBtnAud3.isShown() && !imgBtnAud4.isShown()) {
             nivelActual++;
             if (nivelActual < niveles.size()) {
                 Toast.makeText(this, "¡Nivel completado! Pasando al siguiente...", Toast.LENGTH_SHORT).show();
@@ -383,13 +225,14 @@ public class activity_objetos extends AppCompatActivity {
         btn.setVisibility(View.VISIBLE);
         btn.setEnabled(true);
         btn.setText(texto);
-        btn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.azul_bajo));
+        btn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.amarillo));
     }
 
-    private void restaurarImageButton(ImageButton btn) {
+    private void restaurarImageButton(ImageButton btn, int recursoImagen) {
         btn.setVisibility(View.VISIBLE);
         btn.setEnabled(true);
-        //btn.setColorFilter(ContextCompat.getColor(this, R.color.azul_bajo));
+        btn.setColorFilter(ContextCompat.getColor(this, R.color.trans_parente));
+        btn.setImageResource(recursoImagen);
     }
 }
 
@@ -397,9 +240,11 @@ public class activity_objetos extends AppCompatActivity {
 class NivelObjetos {
     Map<Integer, Integer> pares;
     String[] textos;
+    int[] imagenes;
 
-    NivelObjetos(Map<Integer, Integer> pares, String[] textos) {
+    NivelObjetos(Map<Integer, Integer> pares, String[] textos, int[] imagenes) {
         this.pares = pares;
         this.textos = textos;
+        this.imagenes = imagenes;
     }
 }
