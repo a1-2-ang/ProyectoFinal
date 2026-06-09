@@ -49,7 +49,12 @@ public class activity_animal_nivel2 extends AppCompatActivity {
                 new Pregunta(R.raw.oveja, new String[]{"Chivo", "Cordero", "Oveja", "Cabra"}, 2),
                 new Pregunta(R.raw.vaca, new String[]{"Buffalo", "Vaca", "Toro", "Bisonte"}, 1),
                 new Pregunta(R.raw.buho, new String[]{"Buho", "Lechuza", "Zanate", "Cuervo"}, 0),
-                new Pregunta(R.raw.caballo, new String[]{"Burro", "Cebra", "Mula", "Caballo"}, 3)
+                new Pregunta(R.raw.caballo, new String[]{"Burro", "Cebra", "Mula", "Caballo"}, 3),
+                new Pregunta(R.raw.hamster, new String[]{"Hamster", "Conejo", "Chinchilla", "Hurón"}, 0),
+                new Pregunta(R.raw.leon, new String[]{"Tigre", "Leopardo", "Pantera", "León"}, 3),
+                new Pregunta(R.raw.elefante, new String[]{"Jirafa", "Hipopotamo", "Elefante", "Bisonte"}, 2),
+                new Pregunta(R.raw.delfin, new String[]{"Pulpo", "Delfin", "Ballena", "Tiburon"}, 1),
+                new Pregunta(R.raw.murcielago, new String[]{"Murcielago", "Ardilla", "Zorrillo", "Suricata"}, 0)
                 // Agrega más preguntas aquí
         );
 
@@ -120,7 +125,7 @@ public class activity_animal_nivel2 extends AppCompatActivity {
         } else {
             // Aquí podrías lanzar otra Activity con resultados finales
             String mensajeFinal = "Felicidades, llegaste al final.\nTu resultado es: " + DatosGlobales.contador;
-            if (DatosGlobales.contador == 5) {
+            if (DatosGlobales.contador == preguntas.size()) {
                 mensajeFinal += "\n¡Puntuación perfecta!";
             } else if (DatosGlobales.contador == 0) {
                 mensajeFinal += "\nMás suerte la proxima";
