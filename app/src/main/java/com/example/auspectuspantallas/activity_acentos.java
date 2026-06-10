@@ -1,6 +1,9 @@
 package com.example.auspectuspantallas;
 
+import static com.example.auspectuspantallas.DatosGlobales.ptjAce;
+
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -134,11 +137,12 @@ public class activity_acentos extends AppCompatActivity {
                 mostrarEjercicio(indiceActual);
             } else {
                 String mensajeFinal = "Felicidades, llegaste al final.\nTu resultado es: " + DatosGlobales.contador;
-                if (DatosGlobales.contador == 3) {
+                if (DatosGlobales.contador == ejercicios.size()) {
                     mensajeFinal += "\n¡Puntuación perfecta!";
                 } else if (DatosGlobales.contador == 0) {
                     mensajeFinal += "\nMás suerte la proxima";
                 }
+                DatosGlobales.ptjAce = DatosGlobales.contador;
                 DatosGlobales.contador = 0;
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity_acentos.this, R.style.MiEstiloAlerta3);
                 builder.setTitle("Resultado Final");
@@ -147,6 +151,7 @@ public class activity_acentos extends AppCompatActivity {
                 builder.setPositiveButton("Finalizar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(activity_acentos.this, MainActivity.class));
                         finish();
                     }
                 });

@@ -1,5 +1,8 @@
 package com.example.auspectuspantallas;
 
+import static com.example.auspectuspantallas.DatosGlobales.voz;
+
+import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,10 +13,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -26,18 +33,23 @@ import androidx.exifinterface.media.ExifInterface;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
     private Button btn1, btn2, btn3, btn4, btnCerrarSesion, btnGuardarCambios, btnEliminarCuenta;
     private ImageButton btnUsuario, btnPerfil, btnClose;
-    private EditText etNombreUsuario;
+    private EditText etNombreUsuario, txtPntAni, txtPntAce, txtPntNat, txtPntObj, txtPntTot;
     private CardView cardUsuario;
-
+    private LinearLayout linLayPnts;
     private DBHelper dbHelper;
     private String usuario;
     private Bitmap nuevaImagenSeleccionada;
     private Uri fotoUri;
+    private static final int REQ_CODE_SPEECH_INPUT = 400;
+    private TextToSpeech tts;
+    private Switch switchMain;
     private static final int PICK_IMAGE = 100;
     private static final int TAKE_PHOTO = 200;
 
@@ -51,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
         btn2 = findViewById(R.id.btn2);
         btn3 = findViewById(R.id.btn3);
         btn4 = findViewById(R.id.btn4);
+
+        switchMain = findViewById(R.id.switchMain);
 
         cardUsuario = findViewById(R.id.cardUsuario);
         btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
@@ -69,6 +83,34 @@ public class MainActivity extends AppCompatActivity {
         usuario = prefs.getString("usuario", sesion.getUsuarioNombre());
 
         etNombreUsuario.setText(usuario);
+
+        if (voz) {
+            // Inicializar TTS
+            tts = new TextToSpeech(this, status -> {
+                if (status == TextToSpeech.SUCCESS) {
+                    tts.setLanguage(new Locale("es", "ES"));
+                    speakInstruction();
+                }
+            });
+            switchMain.setChecked(true);
+        }
+
+        switchMain.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                // El interruptor está encendido
+                voz = true;
+                tts = new TextToSpeech(this, status -> {
+                    if (status == TextToSpeech.SUCCESS) {
+                        tts.setLanguage(new Locale("es", "ES"));
+                        speakInstruction();
+                    }
+                });
+            } else {
+                // El interruptor está apagado
+                voz = false;
+            }
+        });
+
 
         byte[] imagenBytes = dbHelper.obtenerImagen(sesion.getUsuarioId());
         if (imagenBytes != null) {
@@ -183,10 +225,59 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn1.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, activity_animal_nivel1.class)));
-        btn2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, activity_acentos.class)));
-        btn3.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, activity_naturaleza.class)));
-        btn4.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, activity_objetos.class)));
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, activity_animal_nivel1.class));
+                finish();
+            }
+        });
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, activity_acentos.class));
+                finish();
+            }
+        });
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, activity_naturaleza.class));
+                finish();
+            }
+        });
+        btn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, activity_objetos.class));
+                finish();
+            }
+        });
+        //btn1.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, activity_animal_nivel1.class)));
+        //btn2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, activity_acentos.class)));
+        //btn3.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, activity_naturaleza.class)));
+        //btn4.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, activity_objetos.class)));
+    }
+
+    private void speakInstruction() {
+        String mensaje = "Menú de navegación, por favor diga cual de los siguientes menus quiere abrir, 'animales'. 'acentos'. 'naturaleza'. 'objetos'.";
+        tts.speak(mensaje, TextToSpeech.QUEUE_FLUSH, null, null);
+
+        btnUsuario.postDelayed(this::startVoiceInput, 6000);
+    }
+
+    private void startVoiceInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "es-ES");
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Di tu comando...");
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException e) {
+            tts.speak("Tu dispositivo no soporta reconocimiento de voz", TextToSpeech.QUEUE_FLUSH, null, null);
+            Toast.makeText(this, "Tu dispositivo no soporta reconocimiento de voz", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private Bitmap corregirOrientacion(Uri uri) throws IOException {
@@ -215,7 +306,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
+        if (requestCode == REQ_CODE_SPEECH_INPUT && resultCode == RESULT_OK && data != null) {
+            ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            String spokenText = result.get(0);
+            if (spokenText.equalsIgnoreCase("animales")) {
+                btn1.performClick();
+                //startActivity(new Intent(MainActivity.this, MainActivity2.class));
+            } else if (spokenText.equalsIgnoreCase("acentos")) {
+                btn2.performClick();
+                //tts.speak("Se ha iniciado sesión correctamente", TextToSpeech.QUEUE_FLUSH, null, null);
+            } else if (spokenText.equalsIgnoreCase("naturaleza")) {
+                btn3.performClick();
+                //tts.speak("Se ha iniciado sesión correctamente", TextToSpeech.QUEUE_FLUSH, null, null);
+            } else if (spokenText.equalsIgnoreCase("objetos")) {
+                btn4.performClick();
+                //tts.speak("Se ha iniciado sesión correctamente", TextToSpeech.QUEUE_FLUSH, null, null);
+            } else {
+                tts.speak("Palabra no reconocida, intente nuevamente", TextToSpeech.QUEUE_FLUSH, null, null);
+                startVoiceInput();
+            }
+
+        }
+        else if (resultCode == RESULT_OK) {
             if (requestCode == PICK_IMAGE && data != null) {
                 // Imagen desde galería
                 Uri imageUri = data.getData();

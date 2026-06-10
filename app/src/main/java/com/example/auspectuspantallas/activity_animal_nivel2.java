@@ -1,6 +1,7 @@
 package com.example.auspectuspantallas;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -130,6 +131,7 @@ public class activity_animal_nivel2 extends AppCompatActivity {
             } else if (DatosGlobales.contador == 0) {
                 mensajeFinal += "\nMás suerte la proxima";
             }
+            DatosGlobales.ptjAni = DatosGlobales.contador;
             DatosGlobales.contador = 0;
             AlertDialog.Builder builder = new AlertDialog.Builder(activity_animal_nivel2.this, R.style.MiEstiloAlerta3);
             builder.setTitle("Resultado Final");
@@ -138,6 +140,7 @@ public class activity_animal_nivel2 extends AppCompatActivity {
             builder.setPositiveButton("Finalizar", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(activity_animal_nivel2.this, MainActivity.class));
                     finish();
                 }
             });

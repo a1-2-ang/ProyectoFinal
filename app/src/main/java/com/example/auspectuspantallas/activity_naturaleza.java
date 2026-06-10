@@ -1,5 +1,6 @@
 package com.example.auspectuspantallas;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -190,13 +191,17 @@ public class activity_naturaleza extends AppCompatActivity {
     }
 
     private void verificarFin(Map<Integer, Integer> pares) {
+        DatosGlobales.contador++;
         if (!btnAud1.isShown() && !btnAud2.isShown() && !btnAud3.isShown() && !btnAud4.isShown()) {
             nivelActual++;
             if (nivelActual < niveles.size()) {
                 //Toast.makeText(this, "¡Nivel completado! Pasando al siguiente...", Toast.LENGTH_SHORT).show();
                 cargarNivel(nivelActual);
             } else {
-                //Toast.makeText(this, "¡Juego terminado!", Toast.LENGTH_LONG).show();
+                DatosGlobales.ptjNat = DatosGlobales.contador;
+                Toast.makeText(this, "Puntos: " + DatosGlobales.ptjNat, Toast.LENGTH_LONG).show();
+                DatosGlobales.contador = 0;
+                startActivity(new Intent(activity_naturaleza.this, MainActivity.class));
                 finish();
             }
         }
